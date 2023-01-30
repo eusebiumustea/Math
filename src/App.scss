@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .icon {
+    width: 40px;
+    height: 40px;
+    display: block;
+    background-color: rgb(70, 70, 70);
+    border-radius: 10%;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba($color: #000000, $alpha: 0.4);
+    }
+  }
+  .opened {
+    background-color: teal;
+    width: 392px;
+    height: 844px;
+    transition: ease-in-out 2s;
+  }
+  .closed {
+    width: 0px;
+    height: 0px;
+    background-color: teal;
+    transition: ease-in-out 2s;
+  }
+}
+.menu {
+  width: 300px;
+  height: 500px;
+  background-color: brown;
+}
+.icon {
+  width: 50px;
+  height: 50px;
+  background-color: coral;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+.content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.columns {
+  width: 300px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+input {
+  width: 40px;
+  height: 20px;
+}
+.frame {
+  .animation {
+  }
+}
