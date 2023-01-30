@@ -98,6 +98,7 @@ button {
   bottom: 0;
   z-index: 100;
   align-self: center;
+  gap: 20px;
   .btn {
     width: 200px;
     height: 80px;
@@ -124,4 +125,8 @@ button {
       font-size: 22px;
     }
   }
+}
+
+.animation {
+  object-fit: cover;
 }

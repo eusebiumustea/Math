@@ -1,6 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./Geogra.scss";
-import { useSpring, animated } from "@react-spring/web";
+const removeElementAtIndex = (array, element) => {
+  const elementIndex = array.indexOf(element);
+  return [...array.slice(0, elementIndex), ...array.slice(elementIndex + 1)];
+};
 const data = [
   {
     question: "Unde se afla Campia Londrei?",
@@ -10,21 +13,33 @@ const data = [
       { text: "Marea Britanie", isCorect: true, selectable: true },
     ],
   },
+  {
+    question: "Unde se afla Muntii Apenini?",
+    variants: [
+      { text: "Marea Britanie", isCorect: false, selectable: true },
+      { text: "Romania", isCorect: false, selectable: true },
+      { text: "Italia", isCorect: true, selectable: true },
+    ],
+  },
+  {
+    question: "Unde se afla Muntii Anzi?",
+    variants: [
+      { text: "Marea Britanie", isCorect: false, selectable: true },
+      { text: "SUA", isCorect: false, selectable: true },
+      { text: "Italia", isCorect: true, selectable: true },
+    ],
+  },
 ];
-
-const removeElementAtIndex = (array, element) => {
-  const elementIndex = array.indexOf(element);
-  return [...array.slice(0, elementIndex), ...array.slice(elementIndex + 1)];
-};
 export default function Geography() {
+  // const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
-
+  const [initialIndex, setInitialIndex] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState([]);
   const [correctAnswers, setCorectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
 
   function getCorect() {
-    const hasCorrectAnswer = data[0].variants.every((variant) => {
+    const hasCorrectAnswer = data[initialIndex].variants.every((variant) => {
       if (!variant.isCorect) {
         return !selectedVariant.includes(variant);
       }
@@ -37,7 +52,14 @@ export default function Geography() {
       setWrongAnswers(wrongAnswers + 1);
     }
     setSelectedVariant([]);
+    setInitialIndex(initialIndex + 1);
   }
+
+  // useEffect(() => {
+  //   fetch("http://localhost:3001/questions")
+  //     .then((res) => res.json())
+  //     .then((res) => setData(res));
+  // }, []);
 
   return (
     <>
@@ -46,14 +68,12 @@ export default function Geography() {
           <h3 style={{ color: "red", fontSize: 25 }}>{wrongAnswers}</h3>
           <h3 style={{ color: "green", fontSize: 25 }}>{correctAnswers}</h3>
         </div>
-        {data.map((e) => (
-          <div className="question">
-            <h1>{e.question}</h1>
-          </div>
-        ))}
+        <div className="question">
+          <h1>{data[initialIndex]?.question}</h1>
+        </div>
 
         <div className="variants">
-          {data[0].variants.map((e, index) => (
+          {data[initialIndex]?.variants.map((e, index) => (
             <>
               {!selectedVariant.includes(e) && (
                 <button
@@ -78,9 +98,28 @@ export default function Geography() {
             </>
           ))}
         </div>
+        {initialIndex === data.length && (
+          <h1 style={{ alignSelf: "center", textAlign: "center" }}>
+            Scorul tau este
+            <br />
+            {(correctAnswers / data.length) * 100}%
+          </h1>
+        )}
 
         <div className="buttons">
-          <button className="btn" onClick={() => getCorect()}>
+          <button
+            style={{ backgroundColor: "antiquewhite", color: "green" }}
+            className="btn"
+            onClick={() => window.location.reload()}
+            // disabled={initialIndex === 0}
+          >
+            Restart Test
+          </button>
+          <button
+            className="btn"
+            onClick={() => getCorect()}
+            disabled={initialIndex === data.length}
+          >
             TRIMITE
           </button>
           <h1></h1>
