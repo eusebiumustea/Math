@@ -8,6 +8,9 @@ button {
   font-weight: 500;
   border: none;
 }
+.hideApp {
+  display: none;
+}
 .App {
   display: flex;
   justify-content: space-evenly;
@@ -81,7 +84,7 @@ button {
           rgba(0, 0, 0, 0.07) 0px 32px 64px;
       }
     }
-    .hide {
+    .hideBtn {
       display: none;
     }
   }
@@ -99,6 +102,9 @@ button {
   z-index: 100;
   align-self: center;
   gap: 20px;
+  .hideBtn {
+    display: none;
+  }
   .btn {
     width: 200px;
     height: 80px;
@@ -109,6 +115,7 @@ button {
     font-size: 20px;
     border-radius: 5px;
     transition: ease-in 180ms;
+    display: block;
     &:active {
       background-color: #00ff00;
       transition: ease-out 180ms;
@@ -129,4 +136,18 @@ button {
 
 .animation {
   object-fit: cover;
+}
+.open {
+  color: #00ff00;
+  cursor: pointer;
+  text-decoration: none;
+}
+.closed {
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  text-decoration: none;
+}
+.resizeable {
+  object-fit: cover;
+  background: url("https://sofiaadventures.com/wp-content/uploads/2020/02/shutterstock_729939154.jpg");
 }

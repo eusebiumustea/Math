@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Component } from "react";
 import "./Geogra.scss";
 const removeElementAtIndex = (array, element) => {
   const elementIndex = array.indexOf(element);
@@ -34,10 +35,13 @@ export default function Geography() {
   // const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [initialIndex, setInitialIndex] = useState(0);
+  const [home, goToHome] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState([]);
   const [correctAnswers, setCorectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
-
+  function ResetTest() {
+    setInitialIndex(0, setCorectAnswers(0), setWrongAnswers(0));
+  }
   function getCorect() {
     const hasCorrectAnswer = data[initialIndex].variants.every((variant) => {
       if (!variant.isCorect) {
@@ -60,10 +64,13 @@ export default function Geography() {
   //     .then((res) => res.json())
   //     .then((res) => setData(res));
   // }, []);
-
+  const scoreResult = (correctAnswers / data.length) * 100;
+  useEffect(() => {
+    goToHome(true);
+  }, []);
   return (
     <>
-      <div className="App">
+      <div className={home === true ? "hideApp" : "App"}>
         <div className="counter">
           <h3 style={{ color: "red", fontSize: 25 }}>{wrongAnswers}</h3>
           <h3 style={{ color: "green", fontSize: 25 }}>{correctAnswers}</h3>
@@ -102,7 +109,7 @@ export default function Geography() {
           <h1 style={{ alignSelf: "center", textAlign: "center" }}>
             Scorul tau este
             <br />
-            {(correctAnswers / data.length) * 100}%
+            {scoreResult} %
           </h1>
         )}
 
@@ -110,21 +117,48 @@ export default function Geography() {
           <button
             style={{ backgroundColor: "antiquewhite", color: "green" }}
             className="btn"
-            onClick={() => window.location.reload()}
-            // disabled={initialIndex === 0}
+            onClick={() => ResetTest()}
           >
             Restart Test
           </button>
           <button
-            className="btn"
+            className={initialIndex === data.length ? "hideBtn" : "btn"}
             onClick={() => getCorect()}
-            disabled={initialIndex === data.length}
           >
             TRIMITE
           </button>
+          {initialIndex === data.length ? (
+            <button
+              onClick={() => goToHome(true, ResetTest())}
+              className="btn"
+              style={{ background: "blue" }}
+            >
+              NEXT
+            </button>
+          ) : null}
           <h1></h1>
         </div>
       </div>
+      {home && (
+        <div>
+          <div
+            className={open ? "open" : "closed"}
+            onClick={() => setOpen(!open)}
+          >
+            {open ? "ShowMore" : "ShowLess"}
+          </div>
+          <h1>This is home section</h1>
+          <button
+            onClick={() => goToHome(false)}
+            className="btn"
+            style={{ background: "green" }}
+          >
+            Start Test
+          </button>
+          ScoreBoard:
+          <br />
+        </div>
+      )}
     </>
   );
 }
